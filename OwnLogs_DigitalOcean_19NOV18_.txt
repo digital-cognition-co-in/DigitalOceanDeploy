@@ -1,0 +1,498 @@
+SEARCH with --- #FATT ---
+
+dhankar@dhankar-VPCEB44EN:~$ ssh root@159.89.43.55
+root@159.89.43.55's password: 
+Welcome to Ubuntu 16.04.5 LTS (GNU/Linux 4.4.0-138-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+  Get cloud support with Ubuntu Advantage Cloud Guest:
+    http://www.ubuntu.com/business/services/cloud
+
+24 packages can be updated.
+0 updates are security updates.
+
+
+*** System restart required ***
+Last login: Fri Nov 16 10:52:12 2018 from 182.77.101.226
+root@ubuntu-16-dhankar-rohit:~# su - dhankar
+dhankar@ubuntu-16-dhankar-rohit:~$ 
+dhankar@ubuntu-16-dhankar-rohit:~$ cd visionapi
+dhankar@ubuntu-16-dhankar-rohit:~/visionapi$ source visionapienv/bin/activate
+(visionapienv) dhankar@ubuntu-16-dhankar-rohit:~/visionapi$ cd bbb/visionapi
+(visionapienv) dhankar@ubuntu-16-dhankar-rohit:~/visionapi/bbb/visionapi$ python3 manage.py runserver 0.0.0.0:8888
+Performing system checks...
+
+System check identified no issues (0 silenced).
+November 16, 2018 - 11:43:44
+Django version 2.1.3, using settings 'visionapi.settings'
+Starting development server at http://0.0.0.0:8888/
+Quit the server with CONTROL-C.
+Error: That port is already in use.
+(visionapienv) dhankar@ubuntu-16-dhankar-rohit:~/visionapi/bbb/visionapi$ 
+(visionapienv) dhankar@ubuntu-16-dhankar-rohit:~/visionapi/bbb/visionapi$ ps auxw | grep runserver
+dhankar   1954  0.0  0.0  12944   988 pts/2    S+   11:47   0:00 grep --color=auto runserver
+
+#FATT ---
+
+dhankar@ubuntu-16-dhankar-rohit:~/visionapi/bbb/visionapi$ sudo apt-get install supervisor
+[sudo] password for dhankar: 
+Reading package lists... Done
+Building dependency tree       
+Reading state information... Done
+The following package was automatically installed and is no longer required:
+  grub-pc-bin
+Use 'sudo apt autoremove' to remove it.
+The following additional packages will be installed:
+  libpython-stdlib libpython2.7-minimal libpython2.7-stdlib python python-meld3 python-minimal python-pkg-resources python2.7 python2.7-minimal
+Suggested packages:
+  python-doc python-tk python-setuptools python2.7-doc binfmt-support supervisor-doc
+The following NEW packages will be installed:
+  libpython-stdlib libpython2.7-minimal libpython2.7-stdlib python python-meld3 python-minimal python-pkg-resources python2.7 python2.7-minimal
+  supervisor
+0 upgraded, 10 newly installed, 0 to remove and 23 not upgraded.
+Need to get 4,269 kB of archives.
+After this operation, 18.6 MB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+
+#FATT ---
+
+
+dhankar@ubuntu-16-dhankar-rohit:~/visionapi/bbb/visionapi$ nano /etc/supervisor/conf.d/gunicorn.conf
+dhankar@ubuntu-16-dhankar-rohit:~/visionapi/bbb/visionapi$ top
+
+top - 13:30:49 up 2 days,  7:11,  1 user,  load average: 0.00, 0.00, 0.00
+Tasks: 121 total,   1 running, 120 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.0 us,  0.3 sy,  0.0 ni, 99.7 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem :  1016000 total,   154244 free,   173456 used,   688300 buff/cache
+KiB Swap:        0 total,        0 free,        0 used.   608668 avail Mem 
+
+  PID USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND                                                                            
+ 1634 root      20   0       0      0      0 S  0.3  0.0   0:00.21 kworker/0:2                                                                        
+ 3281 dhankar   20   0   40528   3740   3128 R  0.3  0.4   0:00.13 top                                                                                
+    1 root      20   0  185756   6284   3912 S  0.0  0.6   0:07.33 systemd                                                                            
+    2 root      20   0       0      0      0 S  0.0  0.0   0:00.00 kthreadd                                                                           
+    3 root      20   0       0      0      0 S  0.0  0.0   0:01.60 ksoftirqd/0                                                                        
+    5 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 kworker/0:0H                                                                       
+    7 root      20   0       0      0      0 S  0.0  0.0   0:05.81 rcu_sched                                                                          
+    8 root      20   0       0      0      0 S  0.0  0.0   0:00.00 rcu_bh                                                                             
+    9 root      rt   0       0      0      0 S  0.0  0.0   0:00.00 migration/0                                                                        
+   10 root      rt   0       0      0      0 S  0.0  0.0   0:01.42 watchdog/0                                                                         
+   11 root      20   0       0      0      0 S  0.0  0.0   0:00.00 kdevtmpfs                                                                          
+   12 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 netns                                                                              
+   13 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 perf                                                                               
+   14 root      20   0       0      0      0 S  0.0  0.0   0:00.05 khungtaskd                                                                         
+   15 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 writeback                                                                          
+   16 root      25   5       0      0      0 S  0.0  0.0   0:00.00 ksmd                                                                               
+   17 root      39  19       0      0      0 S  0.0  0.0   0:00.36 khugepaged                                                                         
+   18 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 crypto                                                                             
+   19 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 kintegrityd                                                                        
+   20 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 bioset                                                                             
+   21 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 kblockd                                                                            
+   22 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 ata_sff                                                                            
+   23 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 md                                                                                 
+   24 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 devfreq_wq                                                                         
+   28 root      20   0       0      0      0 S  0.0  0.0   0:00.76 kswapd0                                                                            
+   29 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 vmstat                                                                             
+   30 root      20   0       0      0      0 S  0.0  0.0   0:00.00 fsnotify_mark                                                                      
+   31 root      20   0       0      0      0 S  0.0  0.0   0:00.00 ecryptfs-kthrea                                                                    
+   47 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 kthrotld                                                                           
+   48 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 acpi_thermal_pm                                                                    
+   49 root      20   0       0      0      0 S  0.0  0.0   0:00.00 vballoon                                                                           
+   50 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 bioset                                                                             
+   51 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 bioset                                                                             
+   52 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 bioset                                                                             
+   53 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 bioset                                                                             
+   54 root       0 -20       0      0      0 S  0.0  0.0   0:00.00 bioset                                                                             
+dhankar@ubuntu-16-dhankar-rohit:~/visionapi/bbb/visionapi$ 
+dhankar@ubuntu-16-dhankar-rohit:~/visionapi/bbb/visionapi$ htop
+The program 'htop' is currently not installed. You can install it by typing:
+sudo apt install htop
+dhankar@ubuntu-16-dhankar-rohit:~/visionapi/bbb/visionapi$ ps
+  PID TTY          TIME CMD
+ 1906 pts/2    00:00:00 bash
+ 3293 pts/2    00:00:00 ps
+dhankar@ubuntu-16-dhankar-rohit:~/visionapi/bbb/visionapi$ 
+dhankar@ubuntu-16-dhankar-rohit:~/visionapi/bbb/visionapi$ ps aux
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.6 185756  6284 ?        Ss   Nov14   0:07 /lib/systemd/systemd --system --deserialize 25
+root         2  0.0  0.0      0     0 ?        S    Nov14   0:00 [kthreadd]
+root         3  0.0  0.0      0     0 ?        S    Nov14   0:01 [ksoftirqd/0]
+root         5  0.0  0.0      0     0 ?        S<   Nov14   0:00 [kworker/0:0H]
+root         7  0.0  0.0      0     0 ?        S    Nov14   0:05 [rcu_sched]
+root         8  0.0  0.0      0     0 ?        S    Nov14   0:00 [rcu_bh]
+root         9  0.0  0.0      0     0 ?        S    Nov14   0:00 [migration/0]
+root        10  0.0  0.0      0     0 ?        S    Nov14   0:01 [watchdog/0]
+root        11  0.0  0.0      0     0 ?        S    Nov14   0:00 [kdevtmpfs]
+root        12  0.0  0.0      0     0 ?        S<   Nov14   0:00 [netns]
+root        13  0.0  0.0      0     0 ?        S<   Nov14   0:00 [perf]
+root        14  0.0  0.0      0     0 ?        S    Nov14   0:00 [khungtaskd]
+root        15  0.0  0.0      0     0 ?        S<   Nov14   0:00 [writeback]
+root        16  0.0  0.0      0     0 ?        SN   Nov14   0:00 [ksmd]
+root        17  0.0  0.0      0     0 ?        SN   Nov14   0:00 [khugepaged]
+root        18  0.0  0.0      0     0 ?        S<   Nov14   0:00 [crypto]
+root        19  0.0  0.0      0     0 ?        S<   Nov14   0:00 [kintegrityd]
+root        20  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        21  0.0  0.0      0     0 ?        S<   Nov14   0:00 [kblockd]
+root        22  0.0  0.0      0     0 ?        S<   Nov14   0:00 [ata_sff]
+root        23  0.0  0.0      0     0 ?        S<   Nov14   0:00 [md]
+root        24  0.0  0.0      0     0 ?        S<   Nov14   0:00 [devfreq_wq]
+root        28  0.0  0.0      0     0 ?        S    Nov14   0:00 [kswapd0]
+root        29  0.0  0.0      0     0 ?        S<   Nov14   0:00 [vmstat]
+root        30  0.0  0.0      0     0 ?        S    Nov14   0:00 [fsnotify_mark]
+root        31  0.0  0.0      0     0 ?        S    Nov14   0:00 [ecryptfs-kthrea]
+root        47  0.0  0.0      0     0 ?        S<   Nov14   0:00 [kthrotld]
+root        48  0.0  0.0      0     0 ?        S<   Nov14   0:00 [acpi_thermal_pm]
+root        49  0.0  0.0      0     0 ?        S    Nov14   0:00 [vballoon]
+root        50  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        51  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        52  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        53  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        54  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        55  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        56  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        57  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        58  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        59  0.0  0.0      0     0 ?        S    Nov14   0:00 [scsi_eh_0]
+root        60  0.0  0.0      0     0 ?        S<   Nov14   0:00 [scsi_tmf_0]
+root        61  0.0  0.0      0     0 ?        S    Nov14   0:00 [scsi_eh_1]
+root        62  0.0  0.0      0     0 ?        S<   Nov14   0:00 [scsi_tmf_1]
+root        68  0.0  0.0      0     0 ?        S<   Nov14   0:00 [ipv6_addrconf]
+root        81  0.0  0.0      0     0 ?        S<   Nov14   0:00 [deferwq]
+root        82  0.0  0.0      0     0 ?        S<   Nov14   0:00 [charger_manager]
+root       119  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root       120  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root       121  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root       122  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root       123  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root       124  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root       125  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root       126  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root       128  0.0  0.0      0     0 ?        S    Nov14   0:00 [scsi_eh_2]
+root       129  0.0  0.0      0     0 ?        S<   Nov14   0:00 [scsi_tmf_2]
+root       153  0.0  0.0      0     0 ?        S<   Nov14   0:00 [kpsmoused]
+root       312  0.0  0.0      0     0 ?        S    Nov14   0:02 [kworker/u2:0]
+dhankar    413  0.0  2.2  59908 23020 ?        S    Nov14   0:30 /home/dhankar/visionapi/visionapienv/bin/python3 /home/dhankar/visionapi/visionapienv
+root       483  0.0  0.0      0     0 ?        S<   Nov14   0:00 [raid5wq]
+root       513  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root       538  0.0  0.0      0     0 ?        S    Nov14   0:03 [jbd2/vda1-8]
+root       539  0.0  0.0      0     0 ?        S<   Nov14   0:00 [ext4-rsv-conver]
+root       599  0.0  0.0      0     0 ?        S<   Nov14   0:00 [kworker/0:1H]
+root       608  0.0  0.2  28352  2696 ?        Ss   Nov14   0:17 /lib/systemd/systemd-journald
+root       626  0.0  0.0      0     0 ?        S<   Nov14   0:00 [iscsi_eh]
+root       635  0.0  0.0      0     0 ?        S<   Nov14   0:00 [ib_addr]
+root       636  0.0  0.0      0     0 ?        S    Nov14   0:00 [kauditd]
+root       648  0.0  0.0      0     0 ?        S<   Nov14   0:00 [ib_mcast]
+root       649  0.0  0.0      0     0 ?        S<   Nov14   0:00 [ib_nl_sa_wq]
+root       653  0.0  0.0      0     0 ?        S<   Nov14   0:00 [ib_cm]
+root       654  0.0  0.0      0     0 ?        S<   Nov14   0:00 [iw_cm_wq]
+root       655  0.0  0.0      0     0 ?        S<   Nov14   0:00 [rdma_cm]
+root       674  0.0  0.1 102968  1192 ?        Ss   Nov14   0:00 /sbin/lvmetad -f
+root       767  0.0  0.0      0     0 ?        S<   Nov14   0:00 [kvm-irqfd-clean]
+dhankar    823  0.0  3.8 139432 39124 ?        S    Nov14   0:03 /home/dhankar/visionapi/visionapienv/bin/python3 /home/dhankar/visionapi/visionapienv
+root      1203  0.0  0.3  51004  3552 ?        S    10:41   0:00 su - dhankar
+dhankar   1204  0.0  0.5  21312  5180 ?        S    10:41   0:00 -su
+dhankar   1265  0.0  2.2  59848 22792 ?        S    10:47   0:02 /home/dhankar/visionapi/visionapienv/bin/python3 /home/dhankar/visionapi/visionapienv
+dhankar   1322  0.0  7.5 349300 76352 ?        S    10:50   0:01 /home/dhankar/visionapi/visionapienv/bin/python3 /home/dhankar/visionapi/visionapienv
+root      1325  0.0  0.0   5220   108 ?        Ss   Nov14   0:07 /sbin/iscsid
+root      1326  0.0  0.3   5720  3516 ?        S<Ls Nov14   0:39 /sbin/iscsid
+root      1331  0.0  0.2  27728  2740 ?        Ss   Nov14   0:00 /usr/sbin/cron -f
+daemon    1332  0.0  0.1  26044  2028 ?        Ss   Nov14   0:00 /usr/sbin/atd -f
+root      1337  0.0  0.4 274488  5048 ?        Ssl  Nov14   0:11 /usr/lib/accountsservice/accounts-daemon
+message+  1339  0.0  0.3  43016  3576 ?        Ss   Nov14   0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activ
+syslog    1346  0.0  0.3 256392  3272 ?        Ssl  Nov14   0:05 /usr/sbin/rsyslogd -n
+root      1351  0.0  0.3 653548  3348 ?        Ssl  Nov14   0:02 /usr/bin/lxcfs /var/lib/lxcfs/
+root      1355  0.0  0.1   4396  1268 ?        Ss   Nov14   0:00 /usr/sbin/acpid
+root      1363  0.0  1.4 286512 14488 ?        Ssl  Nov14   0:08 /usr/lib/snapd/snapd
+root      1372  0.0  0.3  29384  3760 ?        Ss   Nov14   0:00 /lib/systemd/systemd-logind
+root      1412  0.0  0.0  13372   144 ?        Ss   Nov14   0:00 /sbin/mdadm --monitor --pid-file /run/mdadm/monitor.pid --daemonise --scan --syslog
+root      1415  0.0  0.4 277180  4604 ?        Ssl  Nov14   0:00 /usr/lib/policykit-1/polkitd --no-debug
+root      1463  0.0  0.1  14472  1984 ttyS0    Ss+  Nov14   0:00 /sbin/agetty --keep-baud 115200 38400 9600 ttyS0 vt220
+root      1466  0.0  0.1  14656  1604 tty1     Ss+  Nov14   0:00 /sbin/agetty --noclear tty1 linux
+root      1634  0.0  0.0      0     0 ?        S    11:17   0:00 [kworker/0:2]
+root      1828  0.0  0.6  92828  6788 ?        Ss   11:41   0:00 sshd: root@pts/2
+root      1889  0.0  0.4  21312  4992 pts/2    Ss   11:42   0:00 -bash
+root      1905  0.0  0.3  51004  3460 pts/2    S    11:42   0:00 su - dhankar
+dhankar   1906  0.0  0.5  21312  5204 pts/2    S    11:42   0:00 -su
+dhankar   2623  0.0  0.0  11140   312 ?        Ss   Nov15   0:00 ssh-agent -s
+root      2981  0.0  1.8  57528 18704 ?        Ss   12:32   0:00 /usr/bin/python /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
+root      2985  0.0  0.0      0     0 ?        S    12:32   0:00 [kworker/0:0]
+root      3044  0.0  0.0      0     0 ?        S    12:32   0:00 [kworker/u2:1]
+root      3295  0.5  0.6  92676  6320 ?        Ss   13:32   0:00 sshd: root [priv]
+sshd      3296  0.0  0.3  65508  3220 ?        S    13:32   0:00 sshd: root [net]
+dhankar   3297  0.0  0.3  36084  3276 pts/2    R+   13:32   0:00 ps aux
+systemd+  4410  0.0  0.2 100324  2472 ?        Ssl  Nov15   0:00 /lib/systemd/systemd-timesyncd
+root      8313  0.0  0.3  42388  3564 ?        Ss   Nov15   0:00 /lib/systemd/systemd-udevd
+root      8511  0.0  0.5  65508  6088 ?        Ss   Nov15   0:03 /usr/sbin/sshd -D
+root     13565  0.0  0.0      0     0 ?        S<   Nov15   0:00 [xfsalloc]
+root     13566  0.0  0.0      0     0 ?        S<   Nov15   0:00 [xfs_mru_cache]
+root     21846  0.0  0.1 124972  1352 ?        Ss   Nov14   0:00 nginx: master process /usr/sbin/nginx -g daemon on; master_process on;
+www-data 21847  0.0  0.3 125332  4040 ?        S    Nov14   0:00 nginx: worker process
+postgres 23197  0.0  2.2 293436 23360 ?        S    Nov14   0:03 /usr/lib/postgresql/9.5/bin/postgres -D /var/lib/postgresql/9.5/main -c config_file=/
+postgres 23199  0.0  0.6 293568  6928 ?        Ss   Nov14   0:00 postgres: checkpointer process   
+postgres 23200  0.0  0.5 293436  5724 ?        Ss   Nov14   0:02 postgres: writer process   
+postgres 23201  0.0  0.8 293436  8840 ?        Ss   Nov14   0:02 postgres: wal writer process   
+postgres 23202  0.0  0.6 293820  6572 ?        Ss   Nov14   0:02 postgres: autovacuum launcher process   
+postgres 23203  0.0  0.4 148548  4368 ?        Ss   Nov14   0:02 postgres: stats collector process   
+root     25703  0.0  0.3  36828  3548 ?        Ss   Nov14   0:00 /lib/systemd/systemd --user
+root     25706  0.0  0.1  61252  1956 ?        S    Nov14   0:00 (sd-pam)
+root     25778  0.0  0.3  51004  3368 ?        S    Nov14   0:00 su - dhankar
+dhankar  25779  0.0  0.5  21408  5208 ?        S    Nov14   0:00 -su
+dhankar@ubuntu-16-dhankar-rohit:~/visionapi/bbb/visionapi$ 
+
+
+## FATT----------
+
+### Started 2 Django Servers on the same DO Droplet
+#### http://159.89.43.55:8888/?format=json
+#
+Response Headers 
+#
+Allow: GET, HEAD, OPTIONS
+Connection: close
+Content-Length: 2
+Content-Type: application/json
+Date: Fri, 16 Nov 2018 10:56:50 GMT
+Server: gunicorn/19.9.0
+Vary: Accept, Cookie
+X-Frame-Options: SAMEORIGIN
+#
+Request Headers
+#
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.5
+Connection: keep-alive
+Host: 159.89.43.55:8888
+Referer: http://159.89.43.55:8888/
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0
+
+#
+##### http://159.89.43.55:8888/?format=json
+#
+Response Headers 
+#
+#
+Allow	GET, HEAD, OPTIONS
+Content-Length	2
+Content-Type	application/json
+Date	Fri, 16 Nov 2018 11:01:21 GMT
+Server	WSGIServer/0.2 CPython/3.5.2
+Vary	Accept, Cookie
+X-Frame-Options	SAMEORIGIN
+#
+Request Headers
+#
+
+Accept	text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Encoding	gzip, deflate
+Accept-Language	en-US,en;q=0.5
+Connection	keep-alive
+Host	159.89.43.55:8889
+Upgrade-Insecure-Requests	1
+User-Agent	Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:63.0) Gecko/20100101 Firefox/63.0
+#
+
+(visionapienv) dhankar@ubuntu-16-dhankar-rohit:~/visionapi/bbb/visionapi$ python3 manage.py runserver 0.0.0.0:8888
+Performing system checks...
+
+System check identified no issues (0 silenced).
+November 15, 2018 - 11:44:40
+Django version 2.1.3, using settings 'visionapi.settings'
+Starting development server at http://0.0.0.0:8888/
+Quit the server with CONTROL-C.
+[15/Nov/2018 11:44:45] "GET /api-data/test3_images/ HTTP/1.1" 200 6380
+[15/Nov/2018 11:44:46] "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 304 0
+[15/Nov/2018 11:44:46] "GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
+[15/Nov/2018 11:44:46] "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
+[15/Nov/2018 11:44:46] "GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
+[15/Nov/2018 11:44:46] "GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
+[15/Nov/2018 11:44:46] "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
+[15/Nov/2018 11:44:46] "GET /static/rest_framework/js/jquery-3.3.1.min.js HTTP/1.1" 304 0
+[15/Nov/2018 11:44:46] "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
+[15/Nov/2018 11:44:46] "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
+[15/Nov/2018 11:44:46] "GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
+[15/Nov/2018 11:44:46] "GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
+Not Found: /media/images/prev.pngimage_a_1_hPtyQS6.jpg
+[15/Nov/2018 11:44:49] "GET /media/images/prev.pngimage_a_1_hPtyQS6.jpg HTTP/1.1" 404 1876
+Method Not Allowed: /api-data/test3_images/create/
+[15/Nov/2018 11:45:12] "GET /api-data/test3_images/create/ HTTP/1.1" 405 7943
+                                                                                                                                                                                    
+                                                                                                                                                                                    
+In File Views.py ___serializer.is_valid():___OK --- Test3 
+In File Views.py ___Image Uploaded IMG Path_________ {'image_a': '/media/images/loading.gifimage_a_1.jpg', 'name': '11', 'timestamp': '2018-11-15T11:45:23.569270Z'}
+                                                                                                                                                                                    
+                                                                                                                                                                                    
+[15/Nov/2018 11:45:23] "POST /api-data/test3_images/create/ HTTP/1.1" 201 7886
+[15/Nov/2018 11:45:26] "GET /api-data/test3_images/ HTTP/1.1" 200 6643
+[15/Nov/2018 11:45:31] "GET /media/images/loading.gifimage_a_1.jpg HTTP/1.1" 200 5865
+#
+
+### FATT -------Killed the gunicorn --- processes from -- user - dhankar 
+#
+
+root@ubuntu-16-dhankar-rohit:~# 
+root@ubuntu-16-dhankar-rohit:~# pgrep -l -u dhankar
+413 gunicorn
+823 gunicorn
+1204 bash
+1265 gunicorn
+1322 gunicorn
+2623 ssh-agent
+25779 bash
+root@ubuntu-16-dhankar-rohit:~# 
+root@ubuntu-16-dhankar-rohit:~# kill 413
+root@ubuntu-16-dhankar-rohit:~# 
+root@ubuntu-16-dhankar-rohit:~# pgrep -l -u dhankar
+1204 bash
+1265 gunicorn
+1322 gunicorn
+2623 ssh-agent
+root@ubuntu-16-dhankar-rohit:~# 
+root@ubuntu-16-dhankar-rohit:~# kill 1265
+root@ubuntu-16-dhankar-rohit:~# 
+root@ubuntu-16-dhankar-rohit:~# pgrep -l -u dhankar
+2623 ssh-agent
+root@ubuntu-16-dhankar-rohit:~# 
+root@ubuntu-16-dhankar-rohit:~# su - dhankar
+dhankar@ubuntu-16-dhankar-rohit:~$ 
+dhankar@ubuntu-16-dhankar-rohit:~$ ps
+  PID TTY          TIME CMD
+ 9426 pts/2    00:00:00 bash
+ 9438 pts/2    00:00:00 ps
+dhankar@ubuntu-16-dhankar-rohit:~$ 
+dhankar@ubuntu-16-dhankar-rohit:~$ ps aux
+USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root         1  0.0  0.6 185756  6284 ?        Ss   Nov14   0:07 /lib/systemd/systemd --system --deserialize 25
+root         2  0.0  0.0      0     0 ?        S    Nov14   0:00 [kthreadd]
+root         3  0.0  0.0      0     0 ?        S    Nov14   0:01 [ksoftirqd/0]
+root         5  0.0  0.0      0     0 ?        S<   Nov14   0:00 [kworker/0:0H]
+root         7  0.0  0.0      0     0 ?        R    Nov14   0:07 [rcu_sched]
+root         8  0.0  0.0      0     0 ?        S    Nov14   0:00 [rcu_bh]
+root         9  0.0  0.0      0     0 ?        S    Nov14   0:00 [migration/0]
+root        10  0.0  0.0      0     0 ?        S    Nov14   0:01 [watchdog/0]
+root        11  0.0  0.0      0     0 ?        S    Nov14   0:00 [kdevtmpfs]
+root        12  0.0  0.0      0     0 ?        S<   Nov14   0:00 [netns]
+root        13  0.0  0.0      0     0 ?        S<   Nov14   0:00 [perf]
+root        14  0.0  0.0      0     0 ?        S    Nov14   0:00 [khungtaskd]
+root        15  0.0  0.0      0     0 ?        S<   Nov14   0:00 [writeback]
+root        16  0.0  0.0      0     0 ?        SN   Nov14   0:00 [ksmd]
+root        17  0.0  0.0      0     0 ?        SN   Nov14   0:00 [khugepaged]
+root        18  0.0  0.0      0     0 ?        S<   Nov14   0:00 [crypto]
+root        19  0.0  0.0      0     0 ?        S<   Nov14   0:00 [kintegrityd]
+root        20  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        21  0.0  0.0      0     0 ?        S<   Nov14   0:00 [kblockd]
+root        22  0.0  0.0      0     0 ?        S<   Nov14   0:00 [ata_sff]
+root        23  0.0  0.0      0     0 ?        S<   Nov14   0:00 [md]
+root        24  0.0  0.0      0     0 ?        S<   Nov14   0:00 [devfreq_wq]
+root        28  0.0  0.0      0     0 ?        S    Nov14   0:00 [kswapd0]
+root        29  0.0  0.0      0     0 ?        S<   Nov14   0:00 [vmstat]
+root        30  0.0  0.0      0     0 ?        S    Nov14   0:00 [fsnotify_mark]
+root        31  0.0  0.0      0     0 ?        S    Nov14   0:00 [ecryptfs-kthrea]
+root        47  0.0  0.0      0     0 ?        S<   Nov14   0:00 [kthrotld]
+root        48  0.0  0.0      0     0 ?        S<   Nov14   0:00 [acpi_thermal_pm]
+root        49  0.0  0.0      0     0 ?        S    Nov14   0:00 [vballoon]
+root        50  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        51  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        52  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        53  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        54  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        55  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        56  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        57  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        58  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root        59  0.0  0.0      0     0 ?        S    Nov14   0:00 [scsi_eh_0]
+root        60  0.0  0.0      0     0 ?        S<   Nov14   0:00 [scsi_tmf_0]
+root        61  0.0  0.0      0     0 ?        S    Nov14   0:00 [scsi_eh_1]
+root        62  0.0  0.0      0     0 ?        S<   Nov14   0:00 [scsi_tmf_1]
+root        68  0.0  0.0      0     0 ?        S<   Nov14   0:00 [ipv6_addrconf]
+root        81  0.0  0.0      0     0 ?        S<   Nov14   0:00 [deferwq]
+root        82  0.0  0.0      0     0 ?        S<   Nov14   0:00 [charger_manager]
+root       119  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root       120  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root       121  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root       122  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root       123  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root       124  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root       125  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root       126  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root       128  0.0  0.0      0     0 ?        S    Nov14   0:00 [scsi_eh_2]
+root       129  0.0  0.0      0     0 ?        S<   Nov14   0:00 [scsi_tmf_2]
+root       153  0.0  0.0      0     0 ?        S<   Nov14   0:00 [kpsmoused]
+root       312  0.0  0.0      0     0 ?        S    Nov14   0:03 [kworker/u2:0]
+root       483  0.0  0.0      0     0 ?        S<   Nov14   0:00 [raid5wq]
+root       513  0.0  0.0      0     0 ?        S<   Nov14   0:00 [bioset]
+root       538  0.0  0.0      0     0 ?        S    Nov14   0:03 [jbd2/vda1-8]
+root       539  0.0  0.0      0     0 ?        S<   Nov14   0:00 [ext4-rsv-conver]
+root       599  0.0  0.0      0     0 ?        S<   Nov14   0:00 [kworker/0:1H]
+root       608  0.0  0.3  28352  3220 ?        Ss   Nov14   0:22 /lib/systemd/systemd-journald
+root       626  0.0  0.0      0     0 ?        S<   Nov14   0:00 [iscsi_eh]
+root       635  0.0  0.0      0     0 ?        S<   Nov14   0:00 [ib_addr]
+root       636  0.0  0.0      0     0 ?        S    Nov14   0:00 [kauditd]
+root       648  0.0  0.0      0     0 ?        S<   Nov14   0:00 [ib_mcast]
+root       649  0.0  0.0      0     0 ?        S<   Nov14   0:00 [ib_nl_sa_wq]
+root       653  0.0  0.0      0     0 ?        S<   Nov14   0:00 [ib_cm]
+root       654  0.0  0.0      0     0 ?        S<   Nov14   0:00 [iw_cm_wq]
+root       655  0.0  0.0      0     0 ?        S<   Nov14   0:00 [rdma_cm]
+root       674  0.0  0.1 102968  1192 ?        Ss   Nov14   0:00 /sbin/lvmetad -f
+root       767  0.0  0.0      0     0 ?        S<   Nov14   0:00 [kvm-irqfd-clean]
+root      1325  0.0  0.0   5220   108 ?        Ss   Nov14   0:09 /sbin/iscsid
+root      1326  0.0  0.3   5720  3516 ?        S<Ls Nov14   0:49 /sbin/iscsid
+root      1331  0.0  0.2  27728  2740 ?        Ss   Nov14   0:00 /usr/sbin/cron -f
+daemon    1332  0.0  0.1  26044  2028 ?        Ss   Nov14   0:00 /usr/sbin/atd -f
+root      1337  0.0  0.4 274488  5048 ?        Ssl  Nov14   0:14 /usr/lib/accountsservice/accounts-daemon
+message+  1339  0.0  0.3  43016  3576 ?        Ss   Nov14   0:00 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activ
+syslog    1346  0.0  0.3 256392  3272 ?        Ssl  Nov14   0:06 /usr/sbin/rsyslogd -n
+root      1351  0.0  0.3 653548  3348 ?        Ssl  Nov14   0:02 /usr/bin/lxcfs /var/lib/lxcfs/
+root      1355  0.0  0.1   4396  1268 ?        Ss   Nov14   0:00 /usr/sbin/acpid
+root      1363  0.0  1.4 286512 14488 ?        Ssl  Nov14   0:11 /usr/lib/snapd/snapd
+root      1372  0.0  0.3  29384  3760 ?        Ss   Nov14   0:00 /lib/systemd/systemd-logind
+root      1412  0.0  0.0  13372   144 ?        Ss   Nov14   0:00 /sbin/mdadm --monitor --pid-file /run/mdadm/monitor.pid --daemonise --scan --syslog
+root      1415  0.0  0.4 277180  4604 ?        Ssl  Nov14   0:00 /usr/lib/policykit-1/polkitd --no-debug
+root      1463  0.0  0.1  14472  1984 ttyS0    Ss+  Nov14   0:00 /sbin/agetty --keep-baud 115200 38400 9600 ttyS0 vt220
+root      1466  0.0  0.1  14656  1604 tty1     Ss+  Nov14   0:00 /sbin/agetty --noclear tty1 linux
+dhankar   2623  0.0  0.0  11140   312 ?        Ss   Nov15   0:00 ssh-agent -s
+root      2981  0.0  1.8  57528 18704 ?        Ss   Nov16   0:11 /usr/bin/python /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
+root      3044  0.0  0.0      0     0 ?        S    Nov16   0:00 [kworker/u2:1]
+root      4356  0.0  0.0      0     0 ?        S    Nov16   0:01 [kworker/0:1]
+systemd+  4410  0.0  0.2 100324  2472 ?        Ssl  Nov15   0:00 /lib/systemd/systemd-timesyncd
+root      8313  0.0  0.3  42388  3564 ?        Ss   Nov15   0:00 /lib/systemd/systemd-udevd
+root      8511  0.0  0.5  65508  6088 ?        Ss   Nov15   0:04 /usr/sbin/sshd -D
+root      9257  0.0  0.6  92828  7036 ?        Ss   03:57   0:00 sshd: root@pts/2
+root      9262  0.0  0.0      0     0 ?        S    03:57   0:00 [kworker/0:0]
+root      9316  0.0  0.5  21312  5120 pts/2    Ss   03:57   0:00 -bash
+root      9408  0.0  0.0      0     0 ?        S    04:15   0:00 [kworker/0:2]
+root      9425  0.0  0.3  51004  3548 pts/2    S    04:17   0:00 su - dhankar
+dhankar   9426  0.0  0.4  21312  5060 pts/2    S    04:17   0:00 -su
+dhankar   9443  0.0  0.3  36084  3332 pts/2    R+   04:19   0:00 ps aux
+root     13565  0.0  0.0      0     0 ?        S<   Nov15   0:00 [xfsalloc]
+root     13566  0.0  0.0      0     0 ?        S<   Nov15   0:00 [xfs_mru_cache]
+root     21846  0.0  0.1 124972  1352 ?        Ss   Nov14   0:00 nginx: master process /usr/sbin/nginx -g daemon on; master_process on;
+www-data 21847  0.0  0.3 125332  4040 ?        S    Nov14   0:00 nginx: worker process
+postgres 23197  0.0  2.2 293436 23360 ?        S    Nov14   0:05 /usr/lib/postgresql/9.5/bin/postgres -D /var/lib/postgresql/9.5/main -c config_file=/
+postgres 23199  0.0  0.6 293568  6928 ?        Ss   Nov14   0:00 postgres: checkpointer process   
+postgres 23200  0.0  0.5 293436  5724 ?        Ss   Nov14   0:02 postgres: writer process   
+postgres 23201  0.0  0.8 293436  8840 ?        Ss   Nov14   0:02 postgres: wal writer process   
+postgres 23202  0.0  0.6 293820  6572 ?        Ss   Nov14   0:03 postgres: autovacuum launcher process   
+postgres 23203  0.0  0.4 148548  4368 ?        Ss   Nov14   0:02 postgres: stats collector process   
+root     25703  0.0  0.3  36828  3548 ?        Ss   Nov14   0:00 /lib/systemd/systemd --user
+root     25706  0.0  0.1  61252  1956 ?        S    Nov14   0:00 (sd-pam)
+dhankar@ubuntu-16-dhankar-rohit:~$ 
+dhankar@ubuntu-16-dhankar-rohit:~$ ### After killing gunicorn processes of user -- dhankar 
+dhankar@ubuntu-16-dhankar-rohit:~$ ## logged in as user == dhankar --- get to see only 3 PS --- run by dhankar
+dhankar@ubuntu-16-dhankar-rohit:~$ ## PS -1 - == -su 
+dhankar@ubuntu-16-dhankar-rohit:~$ ## PS -2 == ps aux 
+dhankar@ubuntu-16-dhankar-rohit:~$ ## PS -3 == ss-agent -s 
+dhankar@ubuntu-16-dhankar-rohit:~$ ### earlier -- had 3 copies of the Process == /home/dhankar/visionapi/visionapienv/bin/python3 /home/dhankar/visionapi/visionapienv
+dhankar@ubuntu-16-dhankar-rohit:~$ 
+dhankar@ubuntu-16-dhankar-rohit:~$ packet_write_wait: Connection to 159.89.43.55 port 22: Broken pipe
+dhankar@dhankar-VPCEB44EN:~$ 
+dhankar@dhankar-VPCEB44EN:~$ ssh root@159.89.43.55
+root@159.89.43.55's password: 
+Welcome to Ubuntu 16.04.5 LTS (GNU/Linux 4.4.0-138-generic x86_64)
+#
+#
+
